@@ -46,7 +46,16 @@
     <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
   </div>
   <button type="submit" class="btn btn-primary">Submit</button>
+
+  {{#message}}
+    //inject the message if the message does contain something
+    //tag used to make sure that the message does have certain value
+    <div class="alert alert-danger" role="alert">
+        {{message}}
+    </div>
+  {{/message}}
 </form>
+
 
 </div>
     <!-- Optional JavaScript -->
