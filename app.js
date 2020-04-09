@@ -8,10 +8,14 @@ const PORT = 3000
 const CONNECTION_STRING = "postgres://localhost:5432/newsdb"
 const SALT_ROUND = 10
 const session = require('express-session')
+const path = require('path')
+
+const VIEWS_PATH = path.join(__dirname,'/views')
 
 //configuring view engine
-app.engine('mustache', mustacheExpress())
-app.set('views', './views')
+app.engine('mustache', mustacheExpress(VIEWS_PATH + '/partials', '.mustache')) //path to partials as first arg
+// app.set('views', './views')
+app.set('views', VIEWS_PATH)
 app.set('view engine', 'mustache')
 
 //bodyparser middleware
