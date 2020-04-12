@@ -30,6 +30,22 @@ app.use(session ({
 //create db object
 const db = pgp(CONNECTION_STRING)
 
+app.get('/users/add-article', (req, res) => {
+    res.render('add-article')
+})
+
+app.post('/users/add-article', (req, res) => {
+    let title = req.body.title
+    let description = req.body.description
+    let userId = req.session.user.userId
+
+    db.none('INSERT INTO articles(title,body,userid) VALUES($1, $2, $3)',[title, description, userId])
+    .then(() => {
+        res.send("SUCCESS")
+    })
+    
+})
+
 app.get('/users/articles', (req, res) => {
     res.render('articles',{username: req.session.user.username})
 })
@@ -41,7 +57,7 @@ app.post('/login', (req, res) => {
     db.oneOrNone('SELECT userid,username,password FROM users WHERE username = $1', [username])
     .then((user) => {
         if(user) { //check for user's password
-        bcrypt.compare(password.user.password,function(error, result) {
+        bcrypt.compare(password, user.password,function(error, result) {
             //compare with the actual password(compare with stored hashed password in db)
             if (result) {
                 //put username and userid in the session
@@ -50,7 +66,7 @@ app.post('/login', (req, res) => {
                     // req.session.userId = user.userId
 
                     //put particular object in the session
-                    req.session.user = {userId: use.userId, username: user.username}
+                    req.session.user = {userId: user.userId, username: user.username}
                 }
 
                 res.redirect('/users/articles')
