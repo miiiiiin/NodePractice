@@ -17,18 +17,35 @@ app.engine('mustache', mustacheExpress(VIEWS_PATH + '/partials', '.mustache')) /
 // app.set('views', './views')
 app.set('views', VIEWS_PATH)
 app.set('view engine', 'mustache')
+app.use('/css',express.static('css')) //define static resourcer(localhost:3000/css/site.css)
+//everything inside the foler will be available at the root level
 
 //bodyparser middleware
 app.use(bodyParser.urlencoded({extended: false}))
 
 app.use(session ({
-    secret: 'sdafsd',
+    secret: 'dgadfasfsdfs',
     resave: false, // if the session is changed choose saving or not 
     saveUninitialized: false //whether create a session if you don't put anything
 }))
 
 //create db object
 const db = pgp(CONNECTION_STRING)
+
+app.get('/', (req,res) => {
+    db.any('SELECT articleid, title, body FROM articles')
+    .then((articles) => {
+        res.render('index', {artlcles: articles})
+    })
+})
+
+app.post('/users/delete-article', (req,res) => {
+    let articleId = req.body.articleId
+    db.none('DELETE FROM articles where articleid = $1', [articleId])
+    .then(() => {
+        res.redirect('/users/articles')
+    })
+})
 
 app.get('/users/add-article', (req, res) => {
     res.render('add-article')
@@ -42,12 +59,12 @@ app.get('/users/articles/edit/:articleId', (req, res) => {
     })
 })
 
-app.post('/users/add-article', (req, res) => {
+app.post('/users/add-article', (req,res) => {
     let title = req.body.title
     let description = req.body.description
     let userId = req.session.user.userId
 
-    db.none('INSERT INTO articles(title,body,userid) VALUES($1,$2,$3)',[title,description,userId])
+    db.none('INSERT INTO articles(title, body, userid) VALUES($1,$2,$3)',[title,description,userId])
     .then(() => {
         res.send("SUCCESS")
     })
@@ -69,7 +86,9 @@ app.post('/users/update-article', (req, res) => {
     db.none('UPDATE articles SET title = $1, body = $2 WHERE articleid = $3',[title,description,articleId])
     .then(() => {
         res.redirect('/users/articles')
-    })
+    }).catch((e) => {
+        console.log('handle error here: ', e.message)
+  })
 })
 
 app.post('/login', (req, res) => {
