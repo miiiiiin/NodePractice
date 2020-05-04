@@ -6,7 +6,9 @@ const pgp = require('pg-promise')()
 // const bcrypt = require('bcrypt')
 // const PORT = 3000
 const PORT = process.env.PORT || 8080 //assign heroku to assign the port
-const CONNECTION_STRING = "postgres://localhost:5432/newsdb"
+// const CONNECTION_STRING = "postgres://localhost:5432/newsdb"
+//SET HEROKU-postgres db connection
+const CONNECTION_STRING = "postgres://wkbhtjnjebgjzi:05621d5a071942d383d056ebd485464e4e342e555cef3cab0eb110fd95068358@ec2-54-165-36-134.compute-1.amazonaws.com:5432/d4e09bjbgkkpvh"
 const session = require('express-session')
 const path = require('path')
 const checkAuthorization = require('./utils/checkAuthorization') //middleware
