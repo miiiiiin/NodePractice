@@ -24,7 +24,8 @@ router.post('/add-article', (req,res) => {
 
     db.none('INSERT INTO articles(title, body, userid) VALUES($1,$2,$3)',[title,description,userId])
     .then(() => {
-        res.send("SUCCESS")
+        // res.send("SUCCESS")
+        res.redirect('/user/articles')
     })
 })
 
