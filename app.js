@@ -4,7 +4,8 @@ const mustacheExpress = require('mustache-express')
 const bodyParser = require('body-parser')
 const pgp = require('pg-promise')()
 // const bcrypt = require('bcrypt')
-const PORT = 3000
+// const PORT = 3000
+const PORT = process.env.PORT || 8080 //assign heroku to assign the port
 const CONNECTION_STRING = "postgres://localhost:5432/newsdb"
 const session = require('express-session')
 const path = require('path')
@@ -15,6 +16,7 @@ const userRoutes = require('./routes/users')
 const indexRoutes = require('./routes/index')
 
 const VIEWS_PATH = path.join(__dirname,'/views')
+
 
 //configuring view engine
 app.engine('mustache', mustacheExpress(VIEWS_PATH + '/partials', '.mustache')) //path to partials as first arg

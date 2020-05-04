@@ -6,11 +6,21 @@ const SALT_ROUND = 10
 
 module.exports = router
 
+/*
 router.get('/', (req,res) => {
     db.any('SELECT articleid, title, body FROM articles')
     .then((articles) => {
         res.render('index', {artlcles: articles})
     })
+})
+*/
+
+//async-await function
+router.get('/', async (req,res) => {
+    //if your func marked as async can await for the promise to be resolved
+    //await means 'then'
+    let articles = await db.any('SELECT articleid, title, body FROM articles')
+    res.render('index', {artlcles: articles})
 })
 
 router.get('/logout', (req,res,next) => {

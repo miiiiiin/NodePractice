@@ -1,12 +1,16 @@
 const express = require('express')
 const router = express.Router()
 
-router.post('/delete-article', (req,res) => { //use middleware to make sure all the routes inside the users already begin with users
+//async-await to minimize your code & resolution of the promise
+router.post('/delete-article', async (req,res) => { //use middleware to make sure all the routes inside the users already begin with users
     let articleId = req.body.articleId
-    db.none('DELETE FROM articles where articleid = $1', [articleId])
-    .then(() => {
-        res.redirect('/users/articles')
-    })
+
+    await db.none('DELETE FROM articles where articleid = $1', [articleId])
+    res.redirect('/users/articles') 
+    // db.none('DELETE FROM articles where articleid = $1', [articleId])
+    // .then(() => {
+    //     res.redirect('/users/articles')
+    // })
 })
 
 router.get('/add-article', (req, res) => {
