@@ -5,12 +5,12 @@ const router = express.Router()
 router.post('/delete-article', async (req,res) => { //use middleware to make sure all the routes inside the users already begin with users
     let articleId = req.body.articleId
 
-    await db.none('DELETE FROM articles where articleid = $1', [articleId])
-    res.redirect('/users/articles') 
-    // db.none('DELETE FROM articles where articleid = $1', [articleId])
-    // .then(() => {
-    //     res.redirect('/users/articles')
-    // })
+    // await db.none('DELETE FROM articles where articleid = $1', [articleId])
+    // res.redirect('/users/articles') 
+    db.none('DELETE FROM articles where articleid = $1', [articleId])
+    .then(() => {
+        res.redirect('/users/articles')
+    })
 })
 
 router.get('/add-article', (req, res) => {

@@ -6,14 +6,12 @@ const SALT_ROUND = 10
 
 module.exports = router
 
-/*
-router.get('/', (req,res) => {
-    db.any('SELECT articleid, title, body FROM articles')
-    .then((articles) => {
-        res.render('index', {artlcles: articles})
-    })
-})
-*/
+// router.get('/', (req,res) => {
+//     db.any('SELECT articleid, title, body FROM articles')
+//     .then((articles) => {
+//         res.render('index', {artlcles: articles})
+//     })
+// })
 
 //async-await function
 router.get('/', async (req,res) => {
@@ -23,10 +21,10 @@ router.get('/', async (req,res) => {
     res.render('index', {artlcles: articles})
 })
 
-// //deploy test
-// router.get('/hello', (req,res,next) => {
-//     res.send('Hello World!')
-// })
+// deploy test    
+router.get('/hello', (req,res,next) => {
+    res.send('Hello World!')
+})
 
 router.get('/logout', (req,res,next) => {
     if (req.session) {
