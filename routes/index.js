@@ -6,6 +6,11 @@ const SALT_ROUND = 10
 
 module.exports = router
 
+//deploy test
+router.get('/hello', (req, res, next) => {
+    res.send('Hello World!')
+})
+
 /*
 router.get('/', (req,res) => {
     db.any('SELECT articleid, title, body FROM articles')
