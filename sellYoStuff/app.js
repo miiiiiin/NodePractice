@@ -18,7 +18,6 @@ app.get('/register', (req, res) => {
     res.render('register')//register mustache
 })
 
-
 app.get('/login', (req, res) => {
     res.render('login') //login mustache
 })
