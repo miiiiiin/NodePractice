@@ -4,7 +4,9 @@ const mustacheExpress = require('mustache-express')
 const path = require('path')
 const bodyParser = require('body-parser')
 const models = require('./models')
+const bcrypt = require('bcrypt')
 
+const SALT_ROUNDS = 10
 const PORT = 3000
 const VIEWS_PATH = path.join(__dirname, '/views') //passing in dirname which always going to return you the location where this file is actually running from
 //the 'views' folder will be in my current directory
@@ -44,20 +46,25 @@ try {
     })
     
     if (persistedUser == null) {
-        //user does not exist
-        let user = models.User.build({
-            username: username,
-            password: password
+        bcrypt.hash(password, SALT_ROUNDS, async (error, hash) => {
+            if (error) {
+                res.render('/register',{message: 'Error creating user!'})
+            } else {
+                //user does not exist
+                let user = models.User.build({
+                    username: username,
+                    password: hash//password
+                })
+                let savedUser = await user.save()
+
+                if (savedUser != null) {
+                    //user have been saved
+                    res.redirect('/login')
+                } else {
+                    res.render('/register', {message: "User Already Exist!"})
+                }
+            }
         })
-
-        let savedUser = await user.save()
-
-        if (savedUser != null) {
-            //user have been saved
-            res.redirect('/login')
-        } else {
-            res.render('/register', {message: "User Already Exist!"})
-        }
     } else {
         //send the user to the register page
         res.render('/register', {message: "User Already Exist!"})
