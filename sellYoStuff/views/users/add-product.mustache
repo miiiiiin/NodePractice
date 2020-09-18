@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  
+    {{> header}}
+
+    <title>Sell your stuff!</title>
+  </head>
+  <body>
+    <h1>Add Product</h1>
+
+    <div class = "container">
+    {{> menu}}
+     
+     <form>
+     <label>Photo</label>
+     <input type="file" name = "photo"/>
+     <button type="submit">Upload</button>
+     </form>
+
+     <form>
+        <div class="form-group">
+        <label>Title</label>
+        <input type="text" name="title" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea class="form-control" name="description"></textarea>
+        </div>
+
+        <div class="form-group">
+        <label>Price</label>
+        <input type ="text" name="price"/>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+     </form>
+   </div>
+
+   {{#message}}
+   <div class="alert alert-danger" role="alert">
+    {{message}}
+   </div>
+   {{/message}}
+    {{> footer}}
+  </body>
+</html>
+
+
+  
+ 
