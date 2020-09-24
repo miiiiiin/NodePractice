@@ -12,7 +12,7 @@
     <div class = "container">
     {{> menu}}
      
-     <form>
+     <form action = "/users/upload" method = "POST" enctype = "multipart/form-data">
      <label>Photo</label>
      <input type="file" name = "photo"/>
      <button type="submit">Upload</button>
@@ -44,7 +44,3 @@
     {{> footer}}
   </body>
 </html>
-
-
-  
- 

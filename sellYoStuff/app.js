@@ -13,6 +13,12 @@ const PORT = 3000
 const VIEWS_PATH = path.join(__dirname, '/views') //passing in dirname which always going to return you the location where this file is actually running from
 //the 'views' folder will be in my current directory
 
+// GLOBAL BASE DIRECTORY
+global.__basedir = __dirname 
+
+//STATIC FOLDER
+app.use('/uploads', express.static('uploads')) //the upload folder can be accessed if you go to the upload url
+
 app.use(session({
     secret: 'somesecret',
     resave: true,
