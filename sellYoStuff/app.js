@@ -18,6 +18,7 @@ global.__basedir = __dirname
 
 //STATIC FOLDER
 app.use('/uploads', express.static('uploads')) //the upload folder can be accessed if you go to the upload url
+app.use('/css', express.static('css')) //localhost:3000/css/site.css
 
 app.use(session({
     secret: 'somesecret',

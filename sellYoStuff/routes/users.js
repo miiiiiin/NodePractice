@@ -13,7 +13,8 @@ router.get('/add-product', (req, res) => {
 router.post('/upload', (req, res) => {
     //uploading the file and then rendering the page
     uploadFile(req, (photoURL) => {
-        res.send('UPLOAD')
+        photoURL = `/uploads/${photoURL}`
+        res.render('users/add-product', {imageURL: photoURL, className: 'product-preview-image'})
     }) //the callback function going to give us photo url
 })
 
