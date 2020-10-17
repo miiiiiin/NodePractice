@@ -11,6 +11,16 @@ router.get('/add-product', (req, res) => {
     res.render('users/add-product')
 })
 
+//retrieve products
+router.get('/products', async (req, res) => {
+    let products = await models.Product.findAll({
+        where: {
+            userid: req.session.user.userId,
+        }
+    })
+    res.render('users/products', {products: products})
+})
+
 router.post('/add-product', async (req, res) => {
     let title = req.body.title
     let description = req.body.descdription
@@ -23,7 +33,7 @@ router.post('/add-product', async (req, res) => {
         title: title,
         description: description,
         price: price,
-        userId: userId,
+        userid: userId,
         imageURL: uniqueFileName //stored in the unique file property
     })
     
@@ -31,7 +41,7 @@ router.post('/add-product', async (req, res) => {
     let persistedProduct = await product.save()
 
     if (persistedProduct != null) {
-        res.redirect('/user/products')
+        res.redirect('/users/products')
     } else {
         res.render('users/add-product', {message: 'Unable to add product'})
     }
