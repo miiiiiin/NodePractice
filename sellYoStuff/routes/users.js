@@ -73,3 +73,15 @@ function uploadFile(req, callback) {
         callback(file.name)
     })
 }
+
+router.post('/delete-product', async (req, res) => {
+    let productId = parseInt(req.body.productId)
+    
+    let result = await models.Product.destroy({
+        where: {
+            id: productId
+        }
+    })
+    
+    res.redirect('/users/products')
+})
