@@ -6,9 +6,49 @@ const models = require('../models') //import everything in the model directory
 
 module.exports = router
 
+let uniqueFileName = ''//global variable. whenever apply something it is assigned to the unique filename
+
 //don't need '/users' part of it because that is going to be taken care of by the users's route from app.js
 router.get('/add-product', (req, res) => {
     res.render('users/add-product')
+})
+
+router.get('/products/:productId', async (req, res) => { //get parameter id
+    let productId = req.params.productId
+    let product = await models.Product.findByPk(productId) //find by primary key
+    res.render('users/edit', product.dataValues) //dataValues will be the object that contains all the properties with their values for the particular product
+    //dataValues itself contain the title and description and the price, photo imageURL
+})
+
+router.post('/upload/edit/:productId', (req, res) => {
+    uploadFile(req, async (photoURL) => {
+        let productId = parseInt(req.params.productId)
+        let product = await models.Product.findByPk(productId) //get product object values
+       
+        let response = product.dataValues
+        response.imageURL = photoURL //will have the new url of the existing product
+        res.render('users/edit', response) 
+        //particular object will contain the title, description and price etc..
+    })
+})
+
+router.post('/update-product', async (req, res) => {
+    const productId = req.body.productId
+    const title = req.body.title
+    const description = req.body.description
+    const price = parseFloat(req.body.price)
+
+    const result = models.Product.update({
+        title: title,
+        description: description,
+        price: price,
+        imageURL: uniqueFileName
+    }, {
+        where: {
+            id: productId
+        }
+    })
+    res.redirect('/users/products')
 })
 
 //retrieve products
