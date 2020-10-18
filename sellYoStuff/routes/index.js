@@ -7,6 +7,21 @@ const SALT_ROUNDS = 10
 
 module.exports = router
 
+router.get('/', async (req, res) => {
+    //use promise function or await
+    //so that we wait for the promise to get results
+    let products = await models.Product.findAll() //get all the products which are available in db
+    res.render('index', {products: products}) //pass in index.mustache as {{#products}}
+    //dataValues : basically an object that constains all the different properties of the product
+}) 
+
+router.get('/products/:productId', async (req, res) => {
+    const productId = req.params.productId
+    const product = await models.Product.findByPk(productId)
+
+    res.render('product-details', product.dataValues) //datavalue is a property of any object that is return from the sequelize object
+})
+
 router.get('/login', (req, res) => {
     res.render('login') //login mustache
 })
